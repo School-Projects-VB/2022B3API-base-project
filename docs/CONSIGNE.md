@@ -1,7 +1,6 @@
 # Mon super calendrier
 
-<img src="../logo.png"
-     style="float: left; width: 80px; position: absolute; right: 0; top: 20px; margin-right: 20px;" />
+<img src="../logo.png" style="width: 80px;" />
 
 **Contexte** : Vous venez d'être embauché au sein d'une petite société de service bordelaise. Malgré un bon fonctionnement général et suite aux différentes crises sanitaires, votre entreprise peine à trouver une organisation de planning satisfaisante. Elle décide donc de vous mettre sur le coup guidé par un lead-developper afin de construire un portail interne de gestion de calendrier. Cette application aura pour but de gérer les jours de télétravail et de congés de toute l'entreprise. 
 
