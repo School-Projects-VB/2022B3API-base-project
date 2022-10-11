@@ -9,25 +9,29 @@ export class UsersController {
 
   @Post('/auth/sign-up')
   @UsePipes(ValidationPipe)
-  signUp(@Body() Param: CreateUserDto): string {
-    return 'foo';
+  signUp(@Body() Param: CreateUserDto): boolean {
+    return true;
   }
 
+  // TODO
   @Post('/auth/login')
   login(): string {
     return 'test';
   }
 
+  // TODO
   @Get('/')
   async findAll(): Promise<User[]> {
     return this.UsersService.findAll();
   }
 
+  // TODO
   @Get('/users/:id')
   findOne(): string {
     return 'return one user by id';
   }
 
+  // TODO
   @Get('/users/me')
   async findMe(): Promise<String[]> {
     return this.UsersService.findMe();

@@ -3,14 +3,34 @@ import { User } from '../user.entity';
 
 @Injectable()
 export class UsersService {
-  private readonly users: User[] = [];
-  private readonly properties: String[] = [];
+  john: User = new User('john', 'test.test@t.fr', 'f0o', 'Employee');
+  maria: User = new User('john', 'test.test@t.fr', 'f0o', 'Employee');
 
+  users: User[] = [this.john, this.maria];
+
+
+  // TODO
+  signUp(): boolean {
+    return true;
+  }
+
+  // TODO
+  login(): boolean {
+    return true;
+  }
+
+  // TODO
   findAll(): User[] {
     return this.users;
   }
 
-  findMe(): String[] {
-    return this.properties;
+  // TODO
+  findOne(): boolean {
+    return true;
+  }
+
+  // TODO
+  findMe(): User[] {
+    return this.users;
   }
 }
