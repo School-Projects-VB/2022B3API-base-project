@@ -1,6 +1,6 @@
 # Linux & MacOS
 
-## > Docker
+## Docker
 
 ```bash
 $ make docker
@@ -8,14 +8,14 @@ $ make docker
 
 ### Open another terminal
 
-## > Running the app
+## Running the app
 
 ```bash
 $ make start
 
 ```
 
-## > Testing e2e
+## Testing e2e
 
 ```bash
 $ make tests
@@ -23,13 +23,13 @@ $ make tests
 
 # Windows
 
-## > Installation
+## Installation
 
 ```bash
 $ npm install
 ```
 
-## > Get tests
+## Get tests
 
 ```bash
 # unit tests
@@ -37,7 +37,7 @@ $ git submodule add https://github.com/Wikodit/2022B3API-testing.git test/
 
 ```
 
-## > Setting up database
+## Setting up database
 
 ```bash
 $ docker-compose up --force-recreate -V
@@ -50,14 +50,14 @@ $ docker exec -it postgres psql -U postgres
   create extension if not exists "uuid-ossp";
 ```
 
-## > Running the app
+## Running the app
 
 ```bash
 $ npm run start
 
 ```
 
-## > Testing e2e
+## Testing e2e
 
 ```bash
 $ npm run test
