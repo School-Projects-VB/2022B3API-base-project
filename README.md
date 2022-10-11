@@ -1,3 +1,5 @@
+<img src="logo.png" style="width: 200px; float: right; position: absolute; right: 0; top: 20px; margin-right: 20px;"/>
+
 # Linux & MacOS
 
 ## Docker
