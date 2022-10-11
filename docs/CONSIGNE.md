@@ -8,7 +8,7 @@
 **Consignes de depart** : Ce document fait office de cahier des charges et sera une référence tout au long du projet. Vous trouverez ci-dessous une liste exhaustive des models et des routes à implémenter. L'organisation du code source est libre, **CEPENDANT** l'organisation de code recommandée par NestJS est FORTEMENT recommandée. Votre notation sera basée sur le nombre de tests qui passent avec succès et sera ponderée par votre style de code (propreté, intelligence de code, conventions de nommage, ...). Tout au long de ce document, vous trouverez des notes apportées par votre supérieur, lead-developper qui vous donnera le format de retour ou des types d'erreurs à retourner. 
 **Tout plagiat sera fortement sanctionné par une note de 0 à la fin du module.**
 
-Vous trouverez toutes les informations nécessaires à l'installation du projet et au lancement des tests dans le fichier `README.md`.
+Vous trouverez toutes les informations nécessaires à l'installation du projet et au lancement des tests dans le fichier `docs/README.md`.
 
 ## Models
 
