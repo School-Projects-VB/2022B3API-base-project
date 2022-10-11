@@ -30,13 +30,13 @@ export class UsersController {
   }
 
   // TODO
-  @Get('/users/:id')
+  @Get('/:id')
   findOne(): string {
     return 'return one user by id';
   }
 
   // TODO
-  @Get('/users/me')
+  @Get('/me')
   async findMe(): Promise<User[]> {
     return this.UsersService.findMe();
   }
