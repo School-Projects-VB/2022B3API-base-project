@@ -1,8 +1,8 @@
-import { Body, Controller, Get, Post, UsePipes, ValidationPipe, Request, UseGuards} from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes, ValidationPipe, Request, UseGuards, Param} from '@nestjs/common';
 import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
 import { User } from '../user.entity';
 import { UsersService } from '../services/users.service';
-import { CreateUserDto } from '../dto/createuser.dto';
+import { SignUpDto } from '../dto/signup.dto';
 
 
 
@@ -10,9 +10,10 @@ import { CreateUserDto } from '../dto/createuser.dto';
 export class UsersController {
   constructor(private UsersService: UsersService) { }
 
+  // TODO
   @Post('/auth/sign-up')
   @UsePipes(ValidationPipe)
-  signUp(@Body() Param: CreateUserDto): boolean {
+  signUp(@Body() Param: SignUpDto): boolean {
     return true;
   }
 
@@ -31,8 +32,8 @@ export class UsersController {
 
   // TODO
   @Get('/:id')
-  findOne(): string {
-    return 'return one user by id';
+  findOne(@Param() id): Promise<User | undefined> {
+    return this.UsersService.findOne(id);
   }
 
   // TODO

@@ -4,6 +4,7 @@ import { User } from '../user.entity';
 @Injectable()
 export class UsersService {
   
+  // DataFixtures
   john: User = new User('john', 'test.test@t.fr', 'f0o', 'Admin');
   maria: User = new User('john', 'test.test@t.fr', 'f0o');
   users: User[] = [this.john, this.maria];
