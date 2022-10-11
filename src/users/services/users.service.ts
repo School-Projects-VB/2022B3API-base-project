@@ -3,11 +3,10 @@ import { User } from '../user.entity';
 
 @Injectable()
 export class UsersService {
-  john: User = new User('john', 'test.test@t.fr', 'f0o', 'Employee');
-  maria: User = new User('john', 'test.test@t.fr', 'f0o', 'Employee');
-
+  
+  john: User = new User('john', 'test.test@t.fr', 'f0o', 'Admin');
+  maria: User = new User('john', 'test.test@t.fr', 'f0o');
   users: User[] = [this.john, this.maria];
-
 
   // TODO
   signUp(): boolean {
@@ -25,8 +24,8 @@ export class UsersService {
   }
 
   // TODO
-  findOne(): boolean {
-    return true;
+  async findOne(id: string): Promise<User | undefined> {
+    return this.users.find(user => user.id === id);
   }
 
   // TODO
