@@ -33,7 +33,7 @@ export class UsersController {
 
   // TODO
   @Get('/users/me')
-  async findMe(): Promise<String[]> {
+  async findMe(): Promise<User[]> {
     return this.UsersService.findMe();
   }
 }
