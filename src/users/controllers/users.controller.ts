@@ -13,8 +13,8 @@ export class UsersController {
   // TODO
   @Post('/auth/sign-up')
   @UsePipes(ValidationPipe)
-  signUp(@Body() Param: SignUpDto): boolean {
-    return true;
+  signUp(@Body() Param: SignUpDto): JSON {
+    return JSON.parse(`{"statusCode": "200"}`);
   }
 
   @UseGuards(LocalAuthGuard)
