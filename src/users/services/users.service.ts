@@ -9,11 +9,6 @@ export class UsersService {
   maria: User = new User('maria', 'maria.test@t.fr', 'b4r');
   users: User[] = [this.john, this.maria];
 
-  // TODO
-  login(): boolean {
-    return true;
-  }
-
   findAll(): User[] {
     return this.users;
   }
