@@ -1,13 +1,17 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import {TypeOrmModule} from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersController } from './users/controllers/users.controller';
 import { UsersService } from './users/services/users.service';
+import { DataSource } from 'typeorm';
+import { UsersModule } from './users/users.module';
+import { User } from './users/user.entity';
 
 
 @Module({
   imports: [
+    UsersModule,
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -18,7 +22,7 @@ import { UsersService } from './users/services/users.service';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [],
+        entities: [User],
         synchronize: true,
       }),
       inject: [ConfigService],
@@ -27,4 +31,7 @@ import { UsersService } from './users/services/users.service';
   controllers: [UsersController],
   providers: [UsersService],
 })
-export class AppModule {}
+
+export class AppModule {
+  constructor(private dataSource: DataSource) {}
+}

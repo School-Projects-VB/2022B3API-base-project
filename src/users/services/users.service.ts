@@ -1,23 +1,32 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { CreateUserDto } from '../dto/user.dto';
 import { User } from '../user.entity';
 
 @Injectable()
 export class UsersService {
   
-  // DataFixtures
-  john: User = new User('john', 'john.test@t.fr', 'f0o', 'Admin');
-  maria: User = new User('maria', 'maria.test@t.fr', 'b4r');
-  users: User[] = [this.john, this.maria];
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) { }
 
-  findAll(): User[] {
-    return this.users;
+  findAll(): Promise<User[]> {
+    return this.usersRepository.find();
   }
 
-  async findOne(id: string): Promise<User | undefined> {
-    return this.users.find(user => user.id === id);
+  findOne(id: string): Promise<User> {
+    return this.usersRepository.findOneBy({ id });
   }
 
-  findMe(): User[] {
-    return this.users;
+  findMe(id: string): Promise<User> {
+    return this.usersRepository.findOneBy({ id });
+  }
+
+  // TODO
+  createUser(body: CreateUserDto): Promise<User> {
+    const newUser = this.usersRepository.create(body);
+    return this.usersRepository.save(newUser);
   }
 }

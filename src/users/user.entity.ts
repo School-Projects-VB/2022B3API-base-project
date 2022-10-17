@@ -1,22 +1,21 @@
-import { v4 as uuidv4 } from 'uuid';
+import { Exclude } from 'class-transformer';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'; 
 
+@Entity()
 export class User {
-  
-  constructor(name: string, 
-              mail: string, 
-              pwd: string, 
-              type: 'Employee' | 'Admin' | 'ProjectManager' = 'Employee')
-  {
-    this.id = uuidv4();
-    this.username = name; // TODO: Cette propriété doit porter une contrainte d'unicité
-    this.email = mail; // TODO: Cette propriété doit porter une contrainte d'unicité
-    this.password = pwd;
-    this.role = type;
-  }
+  @PrimaryGeneratedColumn('uuid')
+  id!: string;
 
-  public id!: string; 
-  public username!: string;
-  public email!: string;
-  public password!: string;
-  public role!: 'Employee' | 'Admin' | 'ProjectManager' 
+  @Column({ unique: true })
+  username!: string;
+
+  @Column({ unique: true })
+  email!: string;
+
+  @Column()
+  @Exclude()
+  password!: string;
+
+  @Column({ default: 'Employee' })
+  role!: 'Employee' | 'Admin' | 'ProjectManager';
 }
