@@ -14,7 +14,7 @@ export class UsersController {
   @Post('/auth/sign-up')
   @UsePipes(ValidationPipe)
   signUp(@Body() Param: SignUpDto): JSON {
-    return JSON.parse(`{"statusCode": "200"}`);
+    return JSON.parse(`{"statusCode": "201"}`);
   }
 
   @UseGuards(LocalAuthGuard)
