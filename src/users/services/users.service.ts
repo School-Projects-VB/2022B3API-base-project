@@ -5,15 +5,11 @@ import { User } from '../user.entity';
 export class UsersService {
   
   // DataFixtures
-  john: User = new User('john', 'test.test@t.fr', 'f0o', 'Admin');
-  maria: User = new User('john', 'test.test@t.fr', 'f0o');
+  john: User = new User('john', 'john.test@t.fr', 'f0o', 'Admin');
+  maria: User = new User('maria', 'maria.test@t.fr', 'b4r');
   users: User[] = [this.john, this.maria];
 
   // TODO
-  signUp(): boolean {
-    return true;
-  }
-
   login(): boolean {
     return true;
   }
