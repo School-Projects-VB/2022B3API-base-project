@@ -7,6 +7,8 @@ import { UsersService } from './users/services/users.service';
 import { DataSource } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
+import { AuthService } from './auth/services/auth.service';
+import { JwtService } from '@nestjs/jwt';
 
 
 @Module({
@@ -29,7 +31,7 @@ import { User } from './users/user.entity';
     }),
   ],
   controllers: [UsersController],
-  providers: [UsersService],
+  providers: [UsersService, AuthService, JwtService],
 })
 
 export class AppModule {
