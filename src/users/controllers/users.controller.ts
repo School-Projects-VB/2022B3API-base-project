@@ -27,7 +27,6 @@ export class UsersController {
     return;
   }
 
-  // TODO
   @Post('auth/sign-up')
   @UsePipes(ValidationPipe)
   signUp(@Body() createUserDto: CreateUserDto): Promise<User> {
