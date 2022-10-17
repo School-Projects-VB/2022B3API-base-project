@@ -24,7 +24,6 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  // TODO
   createUser(body: CreateUserDto): Promise<User> {
     const newUser = this.usersRepository.create(body);
     return this.usersRepository.save(newUser);
