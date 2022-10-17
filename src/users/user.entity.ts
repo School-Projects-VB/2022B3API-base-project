@@ -11,7 +11,7 @@ export class User {
     this.username = name; // TODO: Cette propriété doit porter une contrainte d'unicité
     this.email = mail; // TODO: Cette propriété doit porter une contrainte d'unicité
     this.password = pwd;
-    this.role = type;// TODO: Valeur par defaut 'Employee'
+    this.role = type;
   }
 
   public id!: string; 

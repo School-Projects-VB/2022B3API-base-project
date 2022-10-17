@@ -14,22 +14,18 @@ export class UsersService {
     return true;
   }
 
-  // TODO
   login(): boolean {
     return true;
   }
 
-  // TODO
   findAll(): User[] {
     return this.users;
   }
 
-  // TODO
   async findOne(id: string): Promise<User | undefined> {
     return this.users.find(user => user.id === id);
   }
 
-  // TODO
   findMe(): User[] {
     return this.users;
   }

@@ -17,26 +17,22 @@ export class UsersController {
     return true;
   }
 
-  // TODO: A tester
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
     return req.user;
   }
 
-  // TODO
   @Get('/')
   async findAll(): Promise<User[]> {
     return this.UsersService.findAll();
   }
 
-  // TODO
   @Get('/:id')
   findOne(@Param() id): Promise<User | undefined> {
     return this.UsersService.findOne(id);
   }
 
-  // TODO
   @Get('/me')
   async findMe(): Promise<User[]> {
     return this.UsersService.findMe();
