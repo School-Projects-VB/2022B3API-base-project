@@ -5,7 +5,6 @@ import { CreateUserDto } from '../dto/createuser.dto';
 import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { LoginUserDto } from '../dto/loginuser.dto';
-
 import { AuthService } from '../../auth/services/auth.service';
 
 
@@ -41,7 +40,6 @@ export class UsersController {
 
   // TODO: Login
   @UsePipes(ValidationPipe)
-  // @UseGuards(AuthGuard('local'))
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async logIn(@Body() loginUserDto: LoginUserDto){
