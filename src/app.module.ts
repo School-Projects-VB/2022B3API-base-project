@@ -2,19 +2,16 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersController } from './users/controllers/users.controller';
-import { UsersService } from './users/services/users.service';
 import { DataSource } from 'typeorm';
 import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
-import { AuthService } from './auth/services/auth.service';
-import { JwtService } from '@nestjs/jwt';
-import { LocalStrategy } from './auth/strategies/local.strategy';
+import { AuthModule } from './auth/auth.module';
 
 
 @Module({
   imports: [
     UsersModule,
+    AuthModule,
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -31,8 +28,8 @@ import { LocalStrategy } from './auth/strategies/local.strategy';
       inject: [ConfigService],
     }),
   ],
-  controllers: [UsersController],
-  providers: [UsersService, AuthService, JwtService, LocalStrategy]
+  controllers: [],
+  providers: []
 })
 
 export class AppModule {
