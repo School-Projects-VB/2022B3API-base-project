@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'; 
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm'; 
+import { User } from '../users/user.entity';
 
 @Entity()
 export class Project {
@@ -8,6 +9,6 @@ export class Project {
   @Column()
   name!: string;
 
-  @Column('uuid')
+  @OneToMany(type => User, user => user.id)
   referringEmployeeId!: string;
 }
