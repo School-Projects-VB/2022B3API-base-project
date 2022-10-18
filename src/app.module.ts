@@ -9,6 +9,7 @@ import { UsersModule } from './users/users.module';
 import { User } from './users/user.entity';
 import { AuthService } from './auth/services/auth.service';
 import { JwtService } from '@nestjs/jwt';
+import { LocalStrategy } from './auth/strategies/local.strategy';
 
 
 @Module({
@@ -31,7 +32,7 @@ import { JwtService } from '@nestjs/jwt';
     }),
   ],
   controllers: [UsersController],
-  providers: [UsersService, AuthService, JwtService],
+  providers: [UsersService, AuthService, JwtService, LocalStrategy]
 })
 
 export class AppModule {
