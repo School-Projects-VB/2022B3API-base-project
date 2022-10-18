@@ -21,15 +21,15 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
+  @Get('me')
+  @UseGuards(JwtAuthGuard)
+  getProfile(@Request() req) {
+    return req.user;
+  }
+
   @Get(':id')
   findOne(@Param() id): Promise<User | undefined> {
     return this.usersService.findOne(id);
-  }
-
-  @UseGuards(JwtAuthGuard)
-  @Get('me')
-  getProfile(@Request() req) {
-    return req.user;
   }
 
   @Post('auth/sign-up')
