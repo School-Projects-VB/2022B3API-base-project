@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UsePipes, ValidationPipe, Request, UseGuards, Param, ClassSerializerInterceptor, UseInterceptors} from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes, ValidationPipe, Request, UseGuards, Param, ClassSerializerInterceptor, UseInterceptors, ParseUUIDPipe} from '@nestjs/common';
 import { User } from '../user.entity';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/createuser.dto';
@@ -29,7 +29,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param() id): Promise<User | undefined> {
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<User | undefined> {
     return this.usersService.findOne(id);
   }
 
@@ -39,11 +39,10 @@ export class UsersController {
     return this.usersService.createUser(createUserDto);
   }
 
-  // TODO: Login
   @UsePipes(ValidationPipe)
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async logIn(@Body() loginUserDto: LoginUserDto){
-    return this.authService.login(loginUserDto);
+    return await this.authService.login(loginUserDto);
   }
 }
