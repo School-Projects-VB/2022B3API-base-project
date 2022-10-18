@@ -25,12 +25,11 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
-  createUser(body: CreateUserDto): Promise<User> {
-    return this.usersRepository.save(this.usersRepository.create(body));
+  findOneByUsername(username: string): Promise<User> {
+    return this.usersRepository.findOneBy({ username });
   }
 
-  // TODO
-  loginUser(body: LoginUserDto): Promise<User> {
-    return
+  createUser(body: CreateUserDto): Promise<User> {
+    return this.usersRepository.save(this.usersRepository.create(body));
   }
 }

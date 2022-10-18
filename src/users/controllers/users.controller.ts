@@ -5,7 +5,6 @@ import { CreateUserDto } from '../dto/createuser.dto';
 import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
 import { LoginUserDto } from '../dto/loginuser.dto';
-import { AuthGuard } from '@nestjs/passport';
 
 import { AuthService } from '../../auth/services/auth.service';
 
@@ -45,12 +44,7 @@ export class UsersController {
   // @UseGuards(AuthGuard('local'))
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async logIn(@Body() loginUserDto: LoginUserDto): Promise<User> {
-    return this.usersService.loginUser(loginUserDto);
+  async logIn(@Body() loginUserDto: LoginUserDto){
+    return this.authService.login(loginUserDto);
   }
-
-  /* async logIn(@Request() req) {
-    return this.authService.login(req.user);
-  } */
-
 }
