@@ -2,6 +2,7 @@ import {Controller, Get, Post, Param, ParseUUIDPipe, UseGuards} from '@nestjs/co
 import { ProjectsService } from '../services/projects.service';
 import { Project } from '../project.entity';
 import {JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
+import {LocalAuthGuard} from "../../auth/guards/local-auth.guard";
 
 @Controller('projects')
 export class ProjectsController {
@@ -21,6 +22,7 @@ export class ProjectsController {
   }
 
   @Get(':id')
+  @UseGuards(LocalAuthGuard)
   findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Project | undefined> {
     return this.projectsService.findOne(id);
   }
