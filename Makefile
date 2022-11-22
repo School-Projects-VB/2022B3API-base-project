@@ -31,3 +31,5 @@ start: node_modules test
 tests:
 	@ echo -e "${ARROW} Run tests..."
 	@ npm run test
+
+.PHONY: docker start tests
