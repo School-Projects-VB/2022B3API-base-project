@@ -1,34 +1,48 @@
-import {Controller, Get, Post, Param, ParseUUIDPipe, UseGuards, Body,} from '@nestjs/common';
-import { ProjectsService } from '../services/projects.service';
-import { Project } from '../project.entity';
+import {
+    Controller,
+    Get,
+    Post,
+    Param,
+    ParseUUIDPipe,
+    UseGuards,
+    Body,
+    UsePipes,
+    ValidationPipe,
+    Req, UnauthorizedException,
+} from '@nestjs/common';
+import {ProjectsService} from '../services/projects.service';
+import {Project} from '../project.entity';
 import {JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
-import {LocalAuthGuard} from "../../auth/guards/local-auth.guard";
-import {RolesGuard} from "../../auth/guards/roles.guard";
 import {CreateProjectDto} from "../dto/createproject.dto";
-// import {Roles} from "../../auth/decorators/roles.decorator";
+import {UsersService} from "../../users/services/users.service";
 
 @Controller('projects')
-@UseGuards(RolesGuard)
 export class ProjectsController {
-  constructor(
-      private projectsService: ProjectsService
-  ) {}
+    constructor(
+        private projectsService: ProjectsService,
+        private usersService: UsersService
+    ) {
+    }
 
-  @Post()
-  // @Roles('Employee')
-  @UseGuards(JwtAuthGuard)
-  createNew(@Body() createProjectDto: CreateProjectDto): Promise<Project> {
-    return this.projectsService.createProject(createProjectDto);
-  }
+    @Post()
+    @UseGuards(JwtAuthGuard)
+    @UsePipes(ValidationPipe)
+    async createNew(@Req() req, @Body() dto: CreateProjectDto) {
+        if (req.user.role !== "Admin") throw new UnauthorizedException();
+        const project = await this.projectsService.createProject(dto);
+        const user = await this.usersService.findOne(project.referringEmployeeId);
+        console.log(project, user);
+        return {project, user};
+    }
 
-  @Get()
-  async findAll(): Promise<Project[]> {
-    return this.projectsService.findAll();
-  }
+    @Get()
+    async findAll(): Promise<Project[]> {
+        return this.projectsService.findAll();
+    }
 
-  @Get(':id')
-  @UseGuards(LocalAuthGuard)
-  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Project | undefined> {
-    return this.projectsService.findOne(id);
-  }
+    @Get(':id')
+    @UseGuards(JwtAuthGuard)
+    findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Project | undefined> {
+        return this.projectsService.findOne(id);
+    }
 }

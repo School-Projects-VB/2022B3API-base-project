@@ -1,13 +1,16 @@
-import {IsNotEmpty} from "class-validator";
+import {IsNotEmpty, IsOptional, MinLength} from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
-import {Optional} from "@nestjs/common";
 
 export class CreateProjectDto {
+
+  id: string;
+
   @IsNotEmpty()
+  @MinLength(3)
   @ApiProperty()
   name: string;
 
-  @Optional()
+  @IsOptional()
   @ApiProperty()
   description: string;
 
