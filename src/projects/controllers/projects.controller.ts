@@ -19,7 +19,7 @@ export class ProjectsController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseUUIDPipe) id: string) {
-    return
+  findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Project | undefined> {
+    return this.projectsService.findOne(id);
   }
 }
