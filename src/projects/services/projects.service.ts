@@ -24,7 +24,7 @@ export class ProjectsService {
     return project;
   }
 
-  create() {
+  createProject() {
     this.projectsRepository.create()
   }
 }
