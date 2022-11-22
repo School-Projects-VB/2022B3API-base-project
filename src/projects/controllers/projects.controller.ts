@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Param, ParseUUIDPipe} from '@nestjs/common';
+import {Controller, Get, Post, Param, ParseUUIDPipe, UseGuards} from '@nestjs/common';
 import { ProjectsService } from '../services/projects.service';
 import { Project } from '../project.entity';
+import {JwtAuthGuard} from "../../auth/guards/jwt-auth.guard";
 
 @Controller('projects')
 export class ProjectsController {
@@ -9,8 +10,9 @@ export class ProjectsController {
   ) {}
 
   @Post()
+  @UseGuards(JwtAuthGuard)
   create() {
-    return
+    this.projectsService.create();
   }
 
   @Get()
