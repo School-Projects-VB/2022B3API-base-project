@@ -1,16 +1,21 @@
 import { Controller, Get, Post, Param, ParseUUIDPipe} from '@nestjs/common';
+import { ProjectsService } from '../services/projects.service';
 import { Project } from '../project.entity';
 
 @Controller('projects')
 export class ProjectsController {
-  constructor() {}
+  constructor(
+      private projectsService: ProjectsService
+  ) {}
 
   @Post()
-
+  create() {
+    return
+  }
 
   @Get()
-  async findAll(): Promise<User[]> {
-    return this.usersService.findAll();
+  async findAll(): Promise<Project[]> {
+    return this.projectsService.findAll();
   }
 
   @Get(':id')
