@@ -11,4 +11,4 @@ import { Project } from './project.entity';
   exports: [ProjectsService],
 })
 
-export class UsersModule { }
+export class ProjectsModule { }
