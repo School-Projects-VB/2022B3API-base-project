@@ -1,20 +1,19 @@
 /* eslint-disable prettier/prettier */
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { DataSource } from 'typeorm';
+import {TypeOrmModule} from '@nestjs/typeorm';
+import { User } from './users/user.entity'; 
 import { UsersModule } from './users/users.module';
-import { ProjectsModule } from './projects/projects.module';
-import { User } from './users/user.entity';
 import { Project } from './projects/project.entity';
-import { AuthModule } from './auth/auth.module';
-
+import { ProjectUsersModule } from './project-users/project-users.module';
+import { ProjectUser } from './project-users/project-users.entity';
+import { ProjectsModule } from './projects/projects.module';
 
 @Module({
   imports: [
-    ProjectsModule,
     UsersModule,
-    AuthModule,
+    ProjectsModule,
+    ProjectUsersModule,
     ConfigModule.forRoot({isGlobal: true}),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -25,16 +24,13 @@ import { AuthModule } from './auth/auth.module';
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, Project],
+        entities: [User, Project, ProjectUser, Event],
         synchronize: true,
       }),
       inject: [ConfigService],
-    }),
+    })
   ],
-  controllers: [],
-  providers: []
+  controllers: [ ],
+  providers: [ ],
 })
-
-export class AppModule {
-  constructor(private dataSource: DataSource) {}
-}
+export class AppModule {}
