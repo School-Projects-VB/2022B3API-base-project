@@ -31,6 +31,7 @@ export class UsersService {
   }
 
   createUser(body: CreateUserDto): Promise<User> {
-    return this.usersRepository.save(this.usersRepository.create(body));
+    const newUser = this.usersRepository.create(body);
+    return this.usersRepository.save(newUser);;
   }
 }

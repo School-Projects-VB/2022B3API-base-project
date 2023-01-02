@@ -1,5 +1,6 @@
 import { IsEmail, IsIn, IsNotEmpty, IsOptional, MinLength } from "class-validator";
 import { ApiProperty } from '@nestjs/swagger';
+import { roles } from "../../auth/roles.enum";
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -19,6 +20,6 @@ export class CreateUserDto {
 
   @IsOptional()
   @ApiProperty()
-  @IsIn(['Employee', 'Admin', 'ProjectManager'])
-  role: 'Employee' | 'Admin' | 'ProjectManager';
+  @IsIn(["Employee", "Admin", "ProjectManager"])
+  readonly  role: roles
 }

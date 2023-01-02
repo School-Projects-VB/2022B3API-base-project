@@ -1,4 +1,4 @@
-import {Entity, Column, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
+import {Entity, Column, PrimaryGeneratedColumn, OneToOne, ManyToOne} from 'typeorm';
 import {User} from '../users/user.entity';
 import {IsOptional} from "class-validator";
 
@@ -14,6 +14,9 @@ export class Project {
     @IsOptional()
     description?: string;
 
-    @OneToMany(type => User, user => user.id)
-    referringEmployeeId!: string;
+    @OneToOne(() => User, (user) => user.id)
+    referringEmployeeId!: string
+
+    @ManyToOne(type => User, user => user.projects)
+    referringEmployee !: User;
 }

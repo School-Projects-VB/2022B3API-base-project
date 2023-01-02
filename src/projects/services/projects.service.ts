@@ -1,7 +1,7 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import {InjectRepository} from '@nestjs/typeorm';
-import {Repository} from 'typeorm';
-import {Project} from '../project.entity';
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Project } from '../project.entity';
 
 @Injectable()
 export class ProjectsService {
@@ -16,7 +16,7 @@ export class ProjectsService {
     }
 
     async findOne(id: string): Promise<Project | undefined> {
-        const project = await this.projectsRepository.findOneBy({id});
+        const project = await this.projectsRepository.findOneBy({ id });
 
         if (!project) {
             throw new NotFoundException();
@@ -26,6 +26,7 @@ export class ProjectsService {
     }
 
     public async createProject(project: Project): Promise<Project> {
-        return await this.projectsRepository.save(project);
+        this.projectsRepository.create(project);
+        return this.projectsRepository.save(project);
     }
 }

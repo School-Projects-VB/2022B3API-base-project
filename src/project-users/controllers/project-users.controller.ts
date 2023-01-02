@@ -1,6 +1,6 @@
-import {ClassSerializerInterceptor, Controller, ForbiddenException, Get, HttpException, HttpStatus, Post, Query, Req, UseInterceptors} from "@nestjs/common";
-import {UsersService} from "../../users/services/users.service";
-import {ProjectsService} from "../../projects/services/projects.service";
+import { ClassSerializerInterceptor, Controller, ForbiddenException, Get, HttpException, HttpStatus, Post, Query, Req, UseInterceptors } from "@nestjs/common";
+import { UsersService } from "../../users/services/users.service";
+import { ProjectsService } from "../../projects/services/projects.service";
 import { ProjectUsersService } from "../services/project-users.service";
 
 @Controller('project-users')
@@ -9,8 +9,8 @@ export class ProjectUsersController {
         private usersService: UsersService,
         private projectsService: ProjectsService,
         private projectUserService: ProjectUsersService
-    ) {}
-    
+    ) { }
+
     @UseInterceptors(ClassSerializerInterceptor)
     @Get()
     async findAll(@Req() req) {
@@ -53,7 +53,7 @@ export class ProjectUsersController {
     }
 
     @Post()
-    assignTo()  {
+    assignTo() {
         return
     }
 }
