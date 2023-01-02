@@ -31,11 +31,11 @@ export class ProjectsController {
         if (req.user.role !== "Admin") throw new UnauthorizedException();
         const project = await this.projectsService.createProject(dto);
         const user = await this.usersService.findOne(project.referringEmployeeId);
-        console.log(project, user);
         return {project, user};
     }
 
     @Get()
+    @UseGuards(JwtAuthGuard)
     async findAll(): Promise<Project[]> {
         return this.projectsService.findAll();
     }

@@ -13,9 +13,15 @@ export class ProjectUser {
   @Column()
   endDate!: Date;
 
-  @OneToMany(type=>Project, project => project.id)
+  @Column({ type: "uuid", nullable: false })
   projectId!: string;
 
-  @OneToMany(type=>User, user => user.id)
+  @Column({ type: "uuid", nullable: false })
   userId!: string;
+
+  @OneToMany(type=>Project, project => project.id)
+  project!: Project;
+
+  @OneToMany(type=>User, user => user.id)
+  user!: User;
 }
