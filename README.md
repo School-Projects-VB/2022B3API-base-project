@@ -30,7 +30,7 @@ $ make tests
 $ npm install
 ```
 
-## Get tests
+## Get Unit Tests
 
 ```bash
 $ git submodule add https://github.com/Wikodit/2022B3API-testing.git test/
