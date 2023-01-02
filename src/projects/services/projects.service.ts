@@ -11,21 +11,19 @@ export class ProjectsService {
     ) {
     }
 
-    findAll(): Promise<Project[]> {
-        return this.projectsRepository.find();
+    public async findAll(): Promise<Project[]> {
+        return await this.projectsRepository.find();
     }
 
-    async findOne(id: string): Promise<Project | undefined> {
-        const project = await this.projectsRepository.findOneBy({ id });
-
-        if (!project) {
-            throw new NotFoundException();
-        }
-
-        return project;
+    public async findAllByUser(id): Promise<Project[]> {
+        return await this.projectsRepository.find({ where: { referringEmployeeId: id }, relations: ["referringEmployee"] });
     }
 
-    public async createProject(project: Project): Promise<Project> {
+    public async findOne(id: string): Promise<Project | undefined> {
+        return await this.projectsRepository.findOneBy({ id });
+    }
+
+    public async create(project: Project): Promise<Project> {
         this.projectsRepository.create(project);
         return this.projectsRepository.save(project);
     }

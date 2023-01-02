@@ -8,7 +8,7 @@ import {
     Body,
     UsePipes,
     ValidationPipe,
-    Req, UnauthorizedException,
+    UnauthorizedException,
 } from '@nestjs/common';
 import { ProjectsService } from '../services/projects.service';
 import { Project } from '../project.entity';
@@ -16,6 +16,8 @@ import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import { CreateProjectDto } from "../dto/createproject.dto";
 import { UsersService } from "../../users/services/users.service";
 import { roles } from '../../auth/roles.enum';
+import { Roles } from '../../auth/decorators/roles.decorator';
+import { RolesGuard } from '../../auth/guards/roles.guard';
 
 @Controller('projects')
 export class ProjectsController {
@@ -26,10 +28,10 @@ export class ProjectsController {
     }
 
     @Post()
-    @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard, RolesGuard)
     @UsePipes(ValidationPipe)
-    async createProject(@Req() req, @Body() body: CreateProjectDto) {
-        // if (req.user.role !== roles.Admin) throw new UnauthorizedException();
+    @Roles(roles.Admin)
+    async createProject(@Body() body: CreateProjectDto): Promise<Project> {
         const referringEmployee = await this.usersService.findOne(body.referringEmployeeId);
 
         if (referringEmployee.role === roles.Employee) {
@@ -39,7 +41,7 @@ export class ProjectsController {
         const project = new Project();
         project.name = body.name;
         project.referringEmployee = referringEmployee;
-        return await this.projectsService.createProject(project);
+        return await this.projectsService.create(project);
     }
 
     @Get()
