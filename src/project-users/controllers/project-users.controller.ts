@@ -1,7 +1,9 @@
-import { ClassSerializerInterceptor, Controller, ForbiddenException, Get, HttpException, HttpStatus, Post, Query, Req, UseInterceptors } from "@nestjs/common";
+import { Body, ClassSerializerInterceptor, ConflictException, Controller, ForbiddenException, Get, HttpException, HttpStatus, NotFoundException, Post, Query, Req, UnauthorizedException, UseGuards, UseInterceptors } from "@nestjs/common";
 import { UsersService } from "../../users/services/users.service";
 import { ProjectsService } from "../../projects/services/projects.service";
 import { ProjectUsersService } from "../services/project-users.service";
+import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
+import { ProjectUser } from "../project-users.entity";
 
 @Controller('project-users')
 export class ProjectUsersController {
@@ -11,6 +13,7 @@ export class ProjectUsersController {
         private projectUserService: ProjectUsersService
     ) { }
 
+    @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     @Get()
     async findAll(@Req() req) {
@@ -29,6 +32,7 @@ export class ProjectUsersController {
         return projects;
     }
 
+    @UseGuards(JwtAuthGuard)
     @UseInterceptors(ClassSerializerInterceptor)
     @Get(':id')
     async findOne(@Req() req, @Query("projectId") projectId: string) {
@@ -36,14 +40,14 @@ export class ProjectUsersController {
         let requester = await this.usersService.findOne(req.user.id);
 
         if (requester.role === "Employee" && project.referringEmployeeId !== requester.id) {
-            throw new ForbiddenException("you are not authorized to view this project");
+            throw new ForbiddenException("Not Authorized");
         }
 
         if (!project) {
             throw new HttpException(
                 {
                     status: HttpStatus.NOT_FOUND,
-                    error: "project not found",
+                    error: "Not found",
                 },
                 HttpStatus.NOT_FOUND,
             );
@@ -52,8 +56,39 @@ export class ProjectUsersController {
         return project;
     }
 
+    @UseGuards(JwtAuthGuard)
+    @UseInterceptors(ClassSerializerInterceptor)
     @Post()
-    assignTo() {
-        return
+    async createProjectUser(@Body() body, @Req() req) {
+        let user = await this.usersService.findOne(req.user.id);
+        let project = await this.projectsService.findOne(body.projectId);
+        let refUser = await this.usersService.findOne(body.userId);
+
+        if (user.role === "Employee") throw new UnauthorizedException("Not Authorized");
+
+        if (!project) throw new NotFoundException("Not found");
+        if (!refUser) throw new NotFoundException("Not found");
+
+        let currentProjects = await this.projectUserService.findOneUser(refUser);
+        for (let i = 0; i < currentProjects.length; i++) {
+            if (currentProjects[i].startDate <= body.startDate && currentProjects[i].endDate >= body.startDate) {
+                this.callConflict();
+            }
+            if (currentProjects[i].startDate <= body.endDate && currentProjects[i].endDate >= body.endDate) {
+                this.callConflict();
+            }
+        }
+
+        let projectUser = new ProjectUser();
+        projectUser.startDate = body.startDate;
+        projectUser.endDate = body.endDate;
+        projectUser.projectId = project.id;
+        projectUser.userId = refUser.id;
+
+        return this.projectUserService.create(projectUser);
+    }
+
+    private callConflict() {
+        throw new ConflictException("There is a conflict");
     }
 }

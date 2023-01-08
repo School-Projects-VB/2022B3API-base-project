@@ -7,7 +7,7 @@ CL_RESET := \033[39m
 
 
 node_modules:
-	@ echo -e "${ARROW} Install dependancies..."
+	@ echo -e "${ARROW} Install dependencies..."
 	@ npm install
 
 
@@ -31,5 +31,7 @@ start: node_modules test
 tests:
 	@ echo -e "${ARROW} Run tests..."
 	@ npm run test
+
+
 
 .PHONY: docker start tests

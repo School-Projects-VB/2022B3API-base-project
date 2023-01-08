@@ -18,4 +18,9 @@ export class ProjectUsersService {
   findAllProjectUsers(): Promise<ProjectUser[]> {
     return this.projectUsersRepository.find();
   }
+
+  create(projectUser: ProjectUser): Promise<ProjectUser> {
+    let project = this.projectUsersRepository.create(projectUser);
+    return this.projectUsersRepository.save(project);
+  }
 }

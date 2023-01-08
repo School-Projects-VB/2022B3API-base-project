@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import {Project} from "../projects/project.entity";
 import {User} from "../users/user.entity";
 
@@ -7,15 +7,21 @@ export class ProjectUser {
   @PrimaryGeneratedColumn('uuid')
   id!: string;
 
-  @Column()
+  @Column({ type: "date", nullable: false })
   startDate!: Date;
 
-  @Column()
+  @Column({ type: "date", nullable: false })
   endDate!: Date;
 
-  @OneToMany(type=>Project, project => project.id)
+  @ManyToOne(type=>Project, project => project.id)
   project!: Project;
 
-  @OneToMany(type=>User, user => user.id)
+  @ManyToOne(type=>User, user => user.id)
   user!: User;
+
+  @Column({ type: "uuid", nullable: false })
+  projectId!: string;
+
+  @Column({ type: "uuid", nullable: false })
+  userId!: string;
 }

@@ -27,7 +27,7 @@ import { ProjectsModule } from './projects/projects.module';
         entities: [User, Project, ProjectUser, Event],
         synchronize: true,
       }),
-      inject: [ConfigService],
+      inject: [ConfigService]
     })
   ],
   controllers: [ ],
