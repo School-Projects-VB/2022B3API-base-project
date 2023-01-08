@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Project } from '../project.entity';
@@ -15,7 +15,7 @@ export class ProjectsService {
         return await this.projectsRepository.find();
     }
 
-    public async findAllByUser(id): Promise<Project[]> {
+    public async findAllByUser(id: string): Promise<Project[]> {
         return await this.projectsRepository.find({ where: { referringEmployeeId: id }, relations: ["referringEmployee"] });
     }
 

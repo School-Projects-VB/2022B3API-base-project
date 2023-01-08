@@ -15,8 +15,8 @@ export class Project {
     description?: string;
 
     @OneToOne(() => User, (user) => user.id)
-    referringEmployeeId!: string
+    referringEmployeeId!: string;
 
-    @ManyToOne(type => User, user => user.projects)
+    @ManyToOne(() => User, user => user.projects)
     referringEmployee !: User;
 }

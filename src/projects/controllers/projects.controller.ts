@@ -9,6 +9,7 @@ import {
     UsePipes,
     ValidationPipe,
     UnauthorizedException,
+    Req,
 } from '@nestjs/common';
 import { ProjectsService } from '../services/projects.service';
 import { Project } from '../project.entity';
@@ -19,6 +20,7 @@ import { roles } from '../../auth/roles.enum';
 import { Roles } from '../../auth/decorators/roles.decorator';
 import { RolesGuard } from '../../auth/guards/roles.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('projects')
 export class ProjectsController {
     constructor(
@@ -28,7 +30,6 @@ export class ProjectsController {
     }
 
     @Post()
-    @UseGuards(JwtAuthGuard, RolesGuard)
     @UsePipes(ValidationPipe)
     @Roles(roles.Admin)
     async createProject(@Body() body: CreateProjectDto): Promise<Project> {
@@ -45,9 +46,11 @@ export class ProjectsController {
     }
 
     @Get()
-    @UseGuards(JwtAuthGuard)
-    async findAll(): Promise<Project[]> {
-        return this.projectsService.findAll();
+    async findAllProjects(@Req() req) {
+        if (req.user.role === roles.Employee) {
+            return await this.projectsService.findAllByUser(req.user.id);
+        };
+        return await this.projectsService.findAll();
     }
 
     @Get(':id')

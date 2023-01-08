@@ -20,11 +20,11 @@ export class User {
   password!: string;
 
   @Column({ default: roles.Employee, nullable: false })
-  role!: roles
+  role!: roles;
 
   @OneToMany(() => Project, project => project.referringEmployee, { cascade: true })
   projects!: Project[];
 
-  @OneToMany(type => ProjectUser, projectUser => projectUser.user)
+  @OneToMany(() => ProjectUser, projectUser => projectUser.user)
   projectUser!: ProjectUser;
 }

@@ -13,10 +13,10 @@ export class ProjectUser {
   @Column({ type: "date", nullable: false })
   endDate!: Date;
 
-  @ManyToOne(type=>Project, project => project.id)
+  @ManyToOne(()=>Project, project => project.id)
   project!: Project;
 
-  @ManyToOne(type=>User, user => user.id)
+  @ManyToOne(()=>User, user => user.id)
   user!: User;
 
   @Column({ type: "uuid", nullable: false })
