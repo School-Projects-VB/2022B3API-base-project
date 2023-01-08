@@ -1,10 +1,8 @@
-import { Body, Controller, Get, Post, UsePipes, ValidationPipe, Request, UseGuards, Param, ClassSerializerInterceptor, UseInterceptors, ParseUUIDPipe} from '@nestjs/common';
+import { Body, Controller, Get, Post, UsePipes, ValidationPipe, Request, UseGuards, Param, ClassSerializerInterceptor, UseInterceptors, ParseUUIDPipe, HttpException, HttpStatus } from '@nestjs/common';
 import { User } from '../user.entity';
 import { UsersService } from '../services/users.service';
-import { CreateUserDto } from '../dto/createuser.dto';
-import { LocalAuthGuard } from '../../auth/guards/local-auth.guard';
+import { UserDto } from '../dto/user.dto';
 import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
-import { LoginUserDto } from '../dto/loginuser.dto';
 import { AuthService } from '../../auth/services/auth.service';
 
 
@@ -22,10 +20,10 @@ export class UsersController {
     return this.usersService.findAll();
   }
 
-  @Get('me')
   @UseGuards(JwtAuthGuard)
+  @Get('me')
   getProfile(@Request() req) {
-    return req.user;
+    return this.usersService.findUserByUsername(req.user.username);
   }
 
   @Get(':id')
@@ -35,14 +33,23 @@ export class UsersController {
 
   @Post('auth/sign-up')
   @UsePipes(ValidationPipe)
-  signUp(@Body() createUserDto: CreateUserDto): Promise<User> {
-    return this.usersService.createUser(createUserDto);
+  signUp(@Body() dto: UserDto): Promise<User> {
+    return this.usersService.createUser(dto);
   }
 
-  @UsePipes(ValidationPipe)
-  @UseGuards(LocalAuthGuard)
   @Post('auth/login')
-  async logIn(@Body() loginUserDto: LoginUserDto){
-    return await this.authService.login(loginUserDto);
+  async login(@Body() body) {
+    let user = await this.usersService.findOneByEmail(body.email);
+
+    if (user.password !== body.password) {
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: "Something is incorrect",
+        },
+        HttpStatus.UNAUTHORIZED,
+      );
+    }
+    return this.authService.login(user);
   }
 }
